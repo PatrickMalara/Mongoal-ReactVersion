@@ -1,26 +1,40 @@
 import React from 'react';
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Link,
+	Redirect
+} from "react-router-dom";
 import logo from './logo.svg';
 import './App.css';
+import Welcome from "./Welcome";
+import Goals from "./Goals";
+import Insights from "./Insights";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+	constructor(props){
+		super(props);
+		this.state = { loggedIn: false};
+	}
+
+	loginHandle = () => {
+		this.setState({loggedIn: true});
+	}
+
+	render(){
+		return (
+    		<div className="App">
+    			<Router>
+					<Route exact path="/" render={()=>(
+						!this.state.loggedIn ? ( <Welcome loginHandle={this.loginHandle}/> ) : (<Redirect to="/goals" />)
+					)}/>
+					<Route exact path="/goals"> <Goals /> </Route>
+					<Route path="/insights"> <Insights /> </Route>
+				</Router>
+			</div>
+  		);
+	}
 }
 
 export default App;
