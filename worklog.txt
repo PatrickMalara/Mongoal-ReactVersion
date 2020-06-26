@@ -1,2 +1,15 @@
+List of Pages:
+	* Welcome page
+		- Login
+		- Signup
+	* Goals
+		- Create goals
+		- Delete goals
+		- Edit goals
+		- Sort the list of goals for each month and year
+	* Insights
+		- Graphs based on users acomblishments
+		- Maybe we can put the "pillars" here and have writing excersises here idk 
+
 June 12:
 	Creating the repository for Mongoal
