@@ -11,5 +11,8 @@ List of Pages:
 		- Graphs based on users acomblishments
 		- Maybe we can put the "pillars" here and have writing excersises here idk 
 
+June 26:
+    Ive been having some issues with my laptop and Ive been having a hard time fetching from my site.
+
 June 12:
 	Creating the repository for Mongoal
