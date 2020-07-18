@@ -6,28 +6,36 @@ class Goals extends React.Component {
         super(props);
         this.state =
             {
-                goals: "[{\"id\":\"1\",\"userId\":\"1\",\"title\":\"Workout 3x\",\"date\":\"2019-07-29\",\"outOf\":\"3\",\"curr\":\"1\"}]"
+                goals: ""
             };
     }
 
     componentDidMount(){
-        fetch("http://patrickmalara.com/mongoal/getTable.php")
-        .then(response => response.json())
+        //We are using a proxy here because of cors
+        fetch("https://cors-anywhere.herokuapp.com/http://patrickmalara.com/mongoal/getTable.php?userId=" + sessionStorage.getItem('userId'))
+        .then(res => res.json())
         .then(
             (result) => {
-                this.setState({goals: result});
+            this.setState({
+                goals: result
+            });
+            },
+            (error) => {
+            this.setState({
+                goals: "error making AJAX request"
+            });
             }
         )
     }
 
     render(){
 		return(
-			<div class="container">
-				<h1>Goals</h1>
+			<div className="container">
+				<h1>Goals for {sessionStorage.getItem('userId')}</h1>
                 <h3>June 2020</h3>
                 <br />
                 <br />
-                <p>{this.state.goals}</p>
+                <p>{console.log(this.state.goals)}</p>
                 <TableView goalsJSON={this.state.goals}/>
 
 			</div>
@@ -36,35 +44,57 @@ class Goals extends React.Component {
 }
 
 
-
+//This renders the whole list of goals
+//  there is a props called goalsJSON
+//  if goalsJSON is empty than we just render a loading message
+//  otherwise we render the whole list of goals using the GoalView Component
 class TableView extends React.Component {
     render(props){
-        return(
-            <table class="table table-hover">
-                <tr>
-                    <th>Goal</th>
-                    <th>Completion</th>
-                    <th></th>
-                </tr> 
-                { 
-                    this.props.goalsJSON.map((goal) => {
-                        return (
-                            <tr key={goal.id}>
-                                <td>{goal.title}</td>
-                                <td> {goal.curr} / {goal.outOf}</td>
-                                <td>  <button type="button" class="btn btn-primary">+</button> </td>
-                            </tr>
-                        );
-                    })
-                
-                }
-                
-            </table> 
-        );
+        if(this.props.goalsJSON !== ""){
+            return(
+                <table className="table table-hover">
+                    <tbody>
+                        <tr>
+                            <th>Goal</th>
+                            <th>Completion</th>
+                            <th></th>
+                        </tr> 
+                        { 
+                            this.props.goalsJSON.map((goal) => {
+                                return (
+                                    <GoalView 
+                                        goalId={goal.id}
+                                        goalTitle={goal.title}
+                                        goalOutOf={goal.outOf}
+                                    />
+                                );
+                            })
+                        
+                        }
+                    </tbody>
+                </table> 
+            );
+        }
+        else {
+            return (
+                <div>Loading Goals...</div>
+            );
+        }
+        
     }
 }
 
 
-
+class GoalView extends React.Component {
+    render(props){
+        return(
+            <tr key={this.props.goalId}>
+                <td>{this.props.goalTitle}</td>
+                <td> {this.props.goalOutOf}</td>
+                <td>  <button type="button" className="btn btn-primary">+</button> </td>
+            </tr>
+        )
+    }
+}
 
 export default Goals;

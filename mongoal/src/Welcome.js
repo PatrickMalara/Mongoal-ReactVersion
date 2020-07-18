@@ -5,52 +5,74 @@ class Welcome extends React.Component {
 
 	constructor(props) {
 		super(props);
+        this.state = {
+            email: "",
+            password: ""
+        };
+
+        this.doLogin = this.doLogin.bind(this);
+        this.emailInputStateChange = this.emailInputStateChange.bind(this);
+        this.passwordInputStateChange = this.passwordInputStateChange.bind(this);
 	}
 
-	loginHandle = () => {
-		this.props.loginHandle();
-	}	
+    doLogin(){
+        this.props.loginHandle(this.state.email, this.state.password);
+    }
+
+    /*
+    doLogin = () => {
+        this.props.loginHandle(this.state.email, this.state.password);
+    }
+    */
+
+    emailInputStateChange(event) {
+        this.setState({email: event.target.value});
+    }
+
+    passwordInputStateChange(event) {
+        this.setState({password: event.target.value});
+    }
 
 	render() {
 		return(
 			<div>
-                <div class="white-section">
+                <div className="white-section">
                     <h1><strong>Mongoal</strong></h1>
                     <h3>A goal setting app that gives you statistics</h3>
                 </div>
-                <div class="blue-section">
-                    <div class="row">
-                        <div class="col-md-6">
+                <div className="blue-section">
+                    <div className="row">
+                        <div className="col-md-6">
                             <h2><strong>Sign Up</strong></h2>
                             <form>
-                                <div class="form-group">
+                                <div className="form-group">
                                     <label>Email</label>
-                                    <input type="email" class="form-control" id="signupEmail" />
+                                    <input type="email" className="form-control" id="signupEmail" />
                                 </div>
-                                <div class="form-group">
+                                <div className="form-group">
                                     <label>Password</label>
-                                    <input type="password" class="form-control" id="signupPass" />
+                                    <input type="password" className="form-control" id="signupPass" />
                                 </div>
-                                <button type="submit" class="btn btn-light">Sign Up</button>
+                                <button type="submit" className="btn btn-light">Sign Up</button>
                             </form>
                         </div>
-                        <div class="col-md-6">
+                        <div className="col-md-6">
                             <h2><strong>Login</strong></h2>
                             <form>
-                                <div class="form-group">
+                                <div className="form-group">
                                     <label>Email</label>
-                                    <input type="email" class="form-control" id="loginEmail" />
+                                    <input onChange={this.emailInputStateChange} type="text" className="form-control" id="loginEmail" />
                                 </div>
-                                <div class="form-group">
+                                <div className="form-group">
                                     <label>Password</label>
-                                    <input type="password" class="form-control" id="loginPass" />
+                                    <input onChange={this.passwordInputStateChange} type="password" className="form-control" id="loginPass" />
                                 </div>
-                                <button onClick={this.loginHandle} type="submit" class="btn btn-light">Login</button>
+                                <input type="button" onClick={this.doLogin} className="btn btn-light" value="Login" />
                             </form>
                         </div>
                     </div>
                 </div>
-                <div class="white-section">
+                <div className="white-section">
                     <h6>Developed by Patrick Malara</h6>
                 </div>
             </div>
